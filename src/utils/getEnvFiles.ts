@@ -1,7 +1,7 @@
 import * as path from 'path';
 
 export function getEnvFiles(): [string] {
-    console.log(process.env.ENVIRONMENT);
+  console.log(process.env.ENVIRONMENT);
 
-    return [path.resolve(`./env/.env.${process.env.ENVIRONMENT}`).trim()];
+  return [path.resolve(`./env/.env.${process.env.ENVIRONMENT}`).trim()];
 }
