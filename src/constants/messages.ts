@@ -14,6 +14,10 @@ export const ERRORS_HTTP = {
   REGISTERED_EMAIL: {
     message: "El email ya está registrado",
     status: HttpStatus.BAD_REQUEST
+  },
+  LOGIN: {
+    message: "El correo electrónico o la contraseña son incorrectos",
+    status: HttpStatus.UNAUTHORIZED
   }
 }
 

@@ -8,26 +8,43 @@ datasource db {
 }
 
 model auth {
-  restaurant_id String      @id(map: "pk_auth") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  password      String      @db.VarChar(255)
-  created_at    DateTime    @default(now()) @db.Timetz(6)
-  updated_at    DateTime    @default(now()) @db.Timetz(6)
-  deleted_at    DateTime?   @db.Timetz(6)
-  restaurants   restaurants @relation(fields: [restaurant_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_auth_restaurants")
+  employee_id        String    @id(map: "pk_auth") @db.Uuid
+  password           String?   @db.VarChar(255)
+  temporary_password String?   @db.VarChar(255)
+  created_at         DateTime  @default(now()) @db.Timetz(6)
+  updated_at         DateTime  @default(now()) @db.Timetz(6)
+  deleted_at         DateTime? @db.Timetz(6)
+  employees          employees @relation(fields: [employee_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_auth_employee")
 }
 
 model restaurants {
-  id          String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  email       String    @unique(map: "uni_email") @db.VarChar(255)
-  name        String    @db.VarChar(255)
-  description String    @db.VarChar(255)
-  address     String    @db.VarChar(255)
-  schedule    String[]  @db.VarChar(255)
-  images      String[]  @db.VarChar(255)
-  phone       String[]  @db.VarChar(255)
-  type_food   String[]  @db.VarChar(255)
-  created_at  DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at  DateTime  @default(now()) @db.Timetz(6)
-  deleted_at  DateTime? @db.Timetz(6)
-  auth        auth?
+  id          String      @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  email       String      @unique(map: "uni_email") @db.VarChar(255)
+  name        String      @db.VarChar(255)
+  description String      @db.VarChar(255)
+  address     String      @db.VarChar(255)
+  schedule    String[]    @db.VarChar(255)
+  images      String[]    @db.VarChar(255)
+  phone       String[]    @db.VarChar(255)
+  type_food   String[]    @db.VarChar(255)
+  created_at  DateTime    @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime    @default(now()) @db.Timetz(6)
+  deleted_at  DateTime?   @db.Timetz(6)
+  employees   employees[]
+}
+
+model employees {
+  id            String      @id(map: "pk_employee") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  restaurant_id String      @db.Uuid
+  rol_id        String      @db.Uuid
+  name          String      @db.VarChar(255)
+  last_name     String      @db.VarChar(255)
+  email         String      @unique(map: "u_employee_email") @db.VarChar(255)
+  auth          auth?
+  restaurants   restaurants @relation(fields: [restaurant_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_employee_restaurant")
+}
+
+model roles {
+  id   String @id(map: "pk_roles") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name String @db.VarChar(100)
 }

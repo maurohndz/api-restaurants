@@ -1,39 +1,28 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 //
 import { PrismaService } from '../prisma/prisma.service';
 // Dtos
-import { CreateRestaurantDto } from './dtos/CreateRestaurantDto';
-import { HttpErros } from '../utils/HttpErros'
+import { LoginRestaurantDto } from './dtos';
 
 @Injectable()
 export class AuthService {
   constructor(private prisma: PrismaService) {}
 
-  async register(restaurantData: CreateRestaurantDto) {
-    const { password, ...rest } = restaurantData;
-
-    const restaurantExist = await this.prisma.restaurants.findUnique({
+  async login(credentials: LoginRestaurantDto) {
+    const employee = await this.prisma.employees.findUnique({
       where: {
-        email: rest.email,
+        email: credentials.email,
+      },
+      include: {
+        auth: true,
       },
     });
-
-    if (restaurantExist) throw 'REGISTERED_EMAIL';
-
-    const hash = await bcrypt.hash(password, 10);
-
-    const restaurant = await this.prisma.restaurants.create({
-      data: {
-        ...rest,
-        auth: {
-          create: {
-            password: hash,
-          },
-        },
-      },
-    });
-
-    return restaurant;
+    
+    if (!employee) throw 'REGISTERED_EMAIL';
+    // validar session activa
+    // firma token
+    // guardar session
+    // responder
   }
 }
