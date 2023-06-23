@@ -13,7 +13,10 @@
     "start:prod": "node dist/main",
     "build": "nest build",
     "db:pull:dev": "dotenv -e ./env/.env.development -- prisma db pull && prisma generate",
-    "db:push:dev": "dotenv -e ./env/.env.development -- prisma db push"
+    "db:push:dev": "dotenv -e ./env/.env.development -- prisma db push && prisma db seed"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",

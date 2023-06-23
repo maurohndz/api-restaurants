@@ -5,7 +5,7 @@ import { getEnvFiles } from './utils/getEnvFiles';
 import { RestaurantsModule } from './restaurants/restaurants.module';
 import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
-import { UtilsModule } from './utils/utils.module';
+import { EmployeesModule } from './employees/employees.module';
 import config from './config/config';
 
 @Module({
@@ -18,7 +18,7 @@ import config from './config/config';
     RestaurantsModule,
     AuthModule,
     PrismaModule,
-    UtilsModule,
+    EmployeesModule,
   ],
   controllers: [],
   providers: [],

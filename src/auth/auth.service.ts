@@ -2,16 +2,16 @@ import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 //
 import { PrismaService } from '../prisma/prisma.service';
-import { Jwt } from '../utils/jwt'
+import * as jwt from '../utils/jwt'
 // Dtos
 import { LoginRestaurantDto } from './dtos';
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService, private jwt: Jwt) {}
+  constructor(private prisma: PrismaService) {}
 
   async login(credentials: LoginRestaurantDto) {
-    const employee = await this.prisma.employees.findUnique({
+    const _employee = await this.prisma.employees.findUnique({
       where: {
         email: credentials.email,
       },
@@ -20,20 +20,22 @@ export class AuthService {
       },
     });
 
-    if (!employee) throw 'REGISTERED_EMAIL';
+    if (!_employee) throw 'REGISTERED_EMAIL'; //TODO:
 
-    const aaa = await bcrypt.compare(
+    const { auth, ...employee } = _employee;
+
+    const isValid = await bcrypt.compare(
       credentials.password,
-      employee.auth.password,
+      auth.password,
     );
 
-    if (aaa) throw 'REGISTERED_EMAIL';
+    if (!isValid) throw 'REGISTERED_EMAIL'; //TODO:
 
-    this.jwt.sing(89)
+    const token = await jwt.sign(employee)
 
-    // TODO: session
-
-    // guardar session
-    // responder
+    return {
+      authorization: token,
+      data: employee
+    }
   }
 }
