@@ -1,16 +1,15 @@
-import jwt from 'jsonwebtoken';
-import { ConfigService } from '@nestjs/config';
-
+import * as jwt from 'jsonwebtoken';
+import { ERRORS_HTTP } from 'src/constants/messages';
 
 const ERRORS = {
-  TokenExpiredError: "TOKEN_EXPIRED",
-  JsonWebTokenError: "TOKEN_ERROR",
-  NotBeforeError: "TOKEN_ERROR",
+  TokenExpiredError: 'TOKEN_EXPIRED',
+  JsonWebTokenError: 'TOKEN_ERROR',
+  NotBeforeError: 'TOKEN_ERROR',
 };
 
 export const sign = async (data) => {
-  const _configService = new ConfigService();
-  const { jwt_secret, session_time } = _configService.get('session');
+  const jwt_secret = process.env['JWT_SECRET'] || null;
+  const session_time: number = parseInt(process.env['SESSION_TIME']) || 600000;
 
   try {
     const token = await jwt.sign(data, jwt_secret, {
@@ -24,14 +23,14 @@ export const sign = async (data) => {
 };
 
 export const verify = async (token) => {
-  const _configService = new ConfigService();
-  const jwt_secret = _configService.get('session.jwt_secret');
+  const jwt_secret = process.env['JWT_SECRET'] || null;
 
   try {
     const decoded = await jwt.verify(token, jwt_secret);
 
     return decoded;
   } catch ({ name }) {
-    throw ERRORS[name];
+    let error_key = ERRORS[name];
+    throw ERRORS_HTTP[error_key];
   }
 };

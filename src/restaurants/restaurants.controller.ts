@@ -8,7 +8,7 @@ import { HttpErros } from 'src/utils/HttpErros';
 export class RestaurantsController {
   constructor(private readonly restaurantService: RestaurantsService) {}
 
-  @Post()
+  @Post('register')
   async register(@Body() restaurant: CreateRestaurantValidation) {
     return await this.restaurantService
       .createRestaurant(restaurant)

@@ -11,5 +11,14 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  async login(@Body() credentials: LoginValidation) {}
+  async login(@Body() credentials: LoginValidation) {
+    return this.authService.login(credentials)
+    .then((data) => {
+      const httpResponse = new HttpResponse(data);
+      return httpResponse.getResponse();
+    })
+    .catch((error) => {
+      throw new HttpErros(error);
+    });
+  }
 }

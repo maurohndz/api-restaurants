@@ -1,21 +1,10 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
-import { ERRORS_HTTP } from '../constants/messages';
-
-function getError(key: string): {
-  message: string;
-  status: HttpStatus;
-} {
-  const error = ERRORS_HTTP[key];
-
-  if (error) return error;
-
-  return ERRORS_HTTP['ERROR'];
-}
+import { HttpException } from '@nestjs/common';
+import { ERRORS_HTTP } from 'src/constants/messages';
 
 export class HttpErros extends HttpException {
-  constructor(error_key: string) {
-    const error = getError(error_key);
-
+  constructor(data: { status: number; message: string }) {
+    let error = data?.status && data?.message ? data : ERRORS_HTTP['ERROR'];
+    
     super({data: null, ...error}, error.status);
   }
 }

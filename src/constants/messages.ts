@@ -18,6 +18,10 @@ export const ERRORS_HTTP = {
   LOGIN: {
     message: "El correo electrónico o la contraseña son incorrectos",
     status: HttpStatus.UNAUTHORIZED
+  },
+  TOKEN: {
+    message: "El token de autenticación no es valido",
+    status: HttpStatus.UNAUTHORIZED
   }
 }
 

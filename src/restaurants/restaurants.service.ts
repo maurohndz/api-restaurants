@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateRestaurantDto } from './dtos';
 import * as bcrypt from 'bcrypt';
+import { ERRORS_HTTP } from 'src/constants/messages';
 
 @Injectable()
 export class RestaurantsService {
@@ -16,7 +17,7 @@ export class RestaurantsService {
       },
     });
 
-    if (restaurantExist) throw 'REGISTERED_EMAIL';
+    if (restaurantExist) throw ERRORS_HTTP['REGISTERED_EMAIL']; 
 
     const hash = await bcrypt.hash(password, 10);
 
@@ -38,7 +39,7 @@ export class RestaurantsService {
         }
       },
     })
-
+ 
     return restaurant;
   }
 }

@@ -20,7 +20,7 @@ export class AuthService {
       },
     });
 
-    if (!_employee) throw 'REGISTERED_EMAIL'; //TODO:
+    if (!_employee) throw 'LOGIN';
 
     const { auth, ...employee } = _employee;
 
@@ -29,7 +29,7 @@ export class AuthService {
       auth.password,
     );
 
-    if (!isValid) throw 'REGISTERED_EMAIL'; //TODO:
+    if (!isValid) throw 'LOGIN';
 
     const token = await jwt.sign(employee)
 
