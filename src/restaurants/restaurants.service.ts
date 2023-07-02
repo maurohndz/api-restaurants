@@ -43,4 +43,12 @@ export class RestaurantsService {
  
     return restaurant;
   }
+
+  async updateRestaurant(data) {
+    const _restaurant = await this.prisma.restaurants.findUnique({
+      where: {
+        
+      }
+    })
+  }
 }
