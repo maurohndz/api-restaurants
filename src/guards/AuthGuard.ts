@@ -8,12 +8,16 @@ import { ERRORS_HTTP } from 'src/constants/messages';
 export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<any> {
     try {
+      const response = context.switchToHttp().getResponse();
       const request = context.switchToHttp().getRequest();
-      const token = request.header['authorization'] || null;
+      const token = request.header('authorization')|| null;
 
       if (!token) throw ERRORS_HTTP['TOKEN'];
 
-      await verify(token)
+      const data: any = await verify(token);
+
+      response.restaurant_id = data?.restaurant_id;
+      response.user_id = data?.id;
       
       return true;
     } catch (error) {

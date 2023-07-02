@@ -3,6 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateRestaurantDto } from './dtos';
 import * as bcrypt from 'bcrypt';
 import { ERRORS_HTTP } from 'src/constants/messages';
+import { idRols } from 'src/constants/idRols';
 
 @Injectable()
 export class RestaurantsService {
@@ -26,7 +27,7 @@ export class RestaurantsService {
         ...rest,
         employees: {
           create: {
-            rol_id: 'c96c129c-9c55-4d68-add1-819edde83f0c',
+            rol_id: idRols['admin'],
             name: 'admin',
             last_name: 'admin',
             email: rest.email,

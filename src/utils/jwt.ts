@@ -31,6 +31,6 @@ export const verify = async (token) => {
     return decoded;
   } catch ({ name }) {
     let error_key = ERRORS[name];
-    throw ERRORS_HTTP[error_key];
+    throw ERRORS_HTTP['TOKEN'];
   }
 };

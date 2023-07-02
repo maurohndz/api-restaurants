@@ -22,6 +22,14 @@ export const ERRORS_HTTP = {
   TOKEN: {
     message: "El token de autenticación no es valido",
     status: HttpStatus.UNAUTHORIZED
+  },
+  ADMIN_ROL: {
+    message: "No puedes asignar este rol a un empleado",
+    status: HttpStatus.BAD_REQUEST
+  },
+  DATA_RECORDED: {
+    message: "La información ya se encuentra registrada",
+    status: HttpStatus.BAD_REQUEST
   }
 }
 
