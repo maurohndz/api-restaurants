@@ -41,5 +41,9 @@ export const SUCCESS_HTTP = {
   CREATED: {
     message: "El registro se ha creado correctamente",
     status: HttpStatus.CREATED
+  },
+  UPDATED: {
+    message: "El registro se ha actualizado correctamente",
+    status: HttpStatus.OK
   }
 }
