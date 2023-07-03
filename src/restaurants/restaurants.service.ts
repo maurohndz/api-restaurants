@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateRestaurantDto } from './dtos';
+import { CreateRestaurantDto, UpdateRestaurantDto } from './dtos';
 import * as bcrypt from 'bcrypt';
 import { ERRORS_HTTP } from 'src/constants/messages';
 import { idRols } from 'src/constants/idRols';
@@ -8,7 +8,7 @@ import { idRols } from 'src/constants/idRols';
 @Injectable()
 export class RestaurantsService {
   constructor(private prisma: PrismaService) {}
-  
+
   async createRestaurant(data: CreateRestaurantDto) {
     const { password, ...rest } = data;
 
@@ -18,7 +18,7 @@ export class RestaurantsService {
       },
     });
 
-    if (restaurantExist) throw ERRORS_HTTP['REGISTERED_EMAIL']; 
+    if (restaurantExist) throw ERRORS_HTTP['REGISTERED_EMAIL'];
 
     const hash = await bcrypt.hash(password, 10);
 
@@ -34,21 +34,21 @@ export class RestaurantsService {
             auth: {
               create: {
                 password: hash,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       },
-    })
- 
+    });
+
     return restaurant;
   }
 
-  async updateRestaurant(data) {
+  async updateRestaurant(data: UpdateRestaurantDto, admin_id: string) {
     const _restaurant = await this.prisma.restaurants.findUnique({
       where: {
-        
-      }
-    })
+        admin_id,
+      },
+    });
   }
 }
