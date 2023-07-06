@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-async function roles() {
+
   await prisma.roles.createMany({
     data: [
       {

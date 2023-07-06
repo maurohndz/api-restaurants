@@ -30,6 +30,10 @@ export const ERRORS_HTTP = {
   DATA_RECORDED: {
     message: "La información ya se encuentra registrada",
     status: HttpStatus.BAD_REQUEST
+  },
+  RESTRICTED: {
+    message: "No se pueda realizar esta operación",
+    status: HttpStatus.BAD_REQUEST
   }
 }
 

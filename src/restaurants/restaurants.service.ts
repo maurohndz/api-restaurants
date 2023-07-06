@@ -45,10 +45,31 @@ export class RestaurantsService {
   }
 
   async updateRestaurant(data: UpdateRestaurantDto, admin_id: string) {
-    const _restaurant = await this.prisma.restaurants.findUnique({
+    const _admin = await this.prisma.employees.findFirst({
       where: {
-        admin_id,
+        AND: { 
+          id: admin_id,
+          rol_id: idRols['admin'],
+        }
       },
-    });
+      include: {
+        restaurants: true,
+      }
+    })
+
+    if (!_admin || data['id'] || data['email']) throw ERRORS_HTTP['RESTRICTED'];
+
+    const  { restaurants } = _admin;
+
+    const restaurant = await this.prisma.restaurants.update({
+      where: {
+        id: restaurants?.id,
+      },
+      data: {
+        ...data,
+      }
+    })
+    
+    return restaurant
   }
 }

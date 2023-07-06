@@ -34,7 +34,7 @@ export class EmployeesController {
       })
       .then((data) => {
         const httpResponse = new HttpResponse(data, 'CREATED');
-        return httpResponse.getResponse();
+        return res.send(httpResponse.getResponse());
       })
       .catch((error) => {
         throw new HttpErros(error);

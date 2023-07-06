@@ -13,7 +13,8 @@
     "start:prod": "node dist/main",
     "build": "nest build",
     "db:pull:dev": "dotenv -e ./env/.env.development -- prisma db pull && prisma generate",
-    "db:push:dev": "dotenv -e ./env/.env.development -- prisma db push && prisma db seed"
+    "db:push:dev": "dotenv -e ./env/.env.development -- prisma db push",
+    "db:seed:dev": "dotenv -e ./env/.env.development -- prisma db seed --preview-feature"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
@@ -27,6 +28,7 @@
     "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "dotenv": "^16.3.1",
     "dotenv-cli": "^7.2.1",
     "jsonwebtoken": "^9.0.0",
     "reflect-metadata": "^0.1.13",

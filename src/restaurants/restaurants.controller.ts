@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Res, Patch } from '@nestjs/common';
 import { RestaurantsService } from './restaurants.service';
 import { CreateRestaurantValidation } from '../validations';
 import { HttpResponse } from 'src/utils/HttpResponse';
@@ -24,6 +24,7 @@ export class RestaurantsController {
   }
 
   @UseGuards(AuthGuard)
+  @Patch()
   async update(@Body() restaurantData: UpdateRestaurantDto, @Res() res: any,) {
     const admin_id = res?.user_id;
 
@@ -31,7 +32,7 @@ export class RestaurantsController {
       .updateRestaurant(restaurantData, admin_id)
       .then((data) => {
         const httpResponse = new HttpResponse(data, 'UPDATED');
-        return httpResponse.getResponse();
+        return res.send(httpResponse.getResponse());
       })
       .catch((error) => {
         throw new HttpErros(error);
