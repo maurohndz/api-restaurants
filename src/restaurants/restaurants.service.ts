@@ -57,6 +57,7 @@ export class RestaurantsService {
       }
     })
 
+    // El id y el email no se pued emodificar
     if (!_admin || data['id'] || data['email']) throw ERRORS_HTTP['RESTRICTED'];
 
     const  { restaurants } = _admin;

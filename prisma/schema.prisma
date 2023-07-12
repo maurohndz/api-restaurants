@@ -31,6 +31,7 @@ model restaurants {
   updated_at  DateTime    @default(now()) @db.Timetz(6)
   deleted_at  DateTime?   @db.Timetz(6)
   employees   employees[]
+  menus       menus[]
 }
 
 model employees {
@@ -74,4 +75,17 @@ model roles_permissions {
   roles         roles       @relation(fields: [rol_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_roles")
 
   @@id([rol_id, permission_id], map: "pk_roles_permissions")
+}
+
+model menus {
+  id            String      @id(map: "pk_menus") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  restaurant_id String      @db.Uuid
+  name          String      @db.VarChar(255)
+  decription    String      @db.VarChar(255)
+  price         Decimal     @db.Decimal(255, 0)
+  status        Boolean     @default(false)
+  created_at    DateTime    @default(now()) @db.Timetz(6)
+  deleted_at    DateTime    @default(now()) @db.Timetz(6)
+  updated_at    DateTime?   @db.Timetz(6)
+  restaurants   restaurants @relation(fields: [restaurant_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_restaurant_menu")
 }

@@ -71,3 +71,13 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+
+-- Extension: "uuid-ossp"
+
+-- DROP EXTENSION "uuid-ossp";
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp"
+    SCHEMA public
+    VERSION "1.1";
+
