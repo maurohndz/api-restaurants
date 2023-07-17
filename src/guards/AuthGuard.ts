@@ -10,7 +10,8 @@ export class AuthGuard implements CanActivate {
     try {
       const response = context.switchToHttp().getResponse();
       const request = context.switchToHttp().getRequest();
-      const token = request.header('authorization')|| null;
+      const token =
+        request.header('authorization')?.replace('Bearer ', '') || null;
 
       if (!token) throw ERRORS_HTTP['TOKEN'];
 
@@ -18,10 +19,10 @@ export class AuthGuard implements CanActivate {
 
       response.restaurant_id = data?.restaurant_id;
       response.user_id = data?.id;
-      
+
       return true;
     } catch (error) {
       throw new HttpErros(error);
     }
   }
-} 
+}

@@ -9,6 +9,26 @@ import { idRols } from 'src/constants/idRols';
 export class RestaurantsService {
   constructor(private prisma: PrismaService) {}
 
+  async getAllRestaurants() {
+    return this.prisma.restaurants.findMany({
+      where: {
+        deleted_at: null,
+      },
+      orderBy: {
+        created_at: 'asc',
+      },
+    });
+  }
+
+  async getOneRestaurant(restaurant_id: string) {
+    return this.prisma.restaurants.findFirst({
+      where: {
+        id: restaurant_id,
+        deleted_at: null,
+      },
+    });
+  }
+
   async createRestaurant(data: CreateRestaurantDto) {
     const { password, ...rest } = data;
 
@@ -47,20 +67,20 @@ export class RestaurantsService {
   async updateRestaurant(data: UpdateRestaurantDto, admin_id: string) {
     const _admin = await this.prisma.employees.findFirst({
       where: {
-        AND: { 
+        AND: {
           id: admin_id,
           rol_id: idRols['admin'],
-        }
+        },
       },
       include: {
         restaurants: true,
-      }
-    })
+      },
+    });
 
     // El id y el email no se pued emodificar
     if (!_admin || data['id'] || data['email']) throw ERRORS_HTTP['RESTRICTED'];
 
-    const  { restaurants } = _admin;
+    const { restaurants } = _admin;
 
     const restaurant = await this.prisma.restaurants.update({
       where: {
@@ -68,9 +88,9 @@ export class RestaurantsService {
       },
       data: {
         ...data,
-      }
-    })
-    
-    return restaurant
+      },
+    });
+
+    return restaurant;
   }
 }

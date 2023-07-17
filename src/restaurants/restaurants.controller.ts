@@ -1,17 +1,53 @@
-import { Controller, Get, Post, Body, UseGuards, Res, Patch } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Param,
+  UseGuards,
+  Res,
+  Patch,
+  Get,
+} from '@nestjs/common';
 import { RestaurantsService } from './restaurants.service';
-import { CreateRestaurantValidation } from '../validations';
+import { CreateRestaurant, UpdateRestaurant } from '../validations';
 import { HttpResponse } from 'src/utils/HttpResponse';
 import { HttpErros } from 'src/utils/HttpErros';
 import { AuthGuard } from 'src/guards/AuthGuard';
-import { UpdateRestaurantDto } from './dtos';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Restaurantes')
 @Controller('restaurants')
 export class RestaurantsController {
   constructor(private readonly restaurantService: RestaurantsService) {}
 
+  @Get()
+  async getAll() {
+    return await this.restaurantService
+      .getAllRestaurants()
+      .then((data) => {
+        const httpResponse = new HttpResponse(data, 'SUCCESS');
+        return httpResponse.getResponse();
+      })
+      .catch((error) => {
+        throw new HttpErros(error);
+      });
+  }
+
+  @Get('/:restaurant_id')
+  async getOne(@Param('restaurant_id') restaurant_id: string) {
+    return await this.restaurantService
+      .getOneRestaurant(restaurant_id)
+      .then((data) => {
+        const httpResponse = new HttpResponse(data, 'SUCCESS');
+        return httpResponse.getResponse();
+      })
+      .catch((error) => {
+        throw new HttpErros(error);
+      });
+  }
+
   @Post('register')
-  async register(@Body() restaurant: CreateRestaurantValidation) {
+  async register(@Body() restaurant: CreateRestaurant) {
     return await this.restaurantService
       .createRestaurant(restaurant)
       .then((data) => {
@@ -23,9 +59,10 @@ export class RestaurantsController {
       });
   }
 
+  @ApiBearerAuth('authorization')
   @UseGuards(AuthGuard)
   @Patch()
-  async update(@Body() restaurantData: UpdateRestaurantDto, @Res() res: any,) {
+  async update(@Body() restaurantData: UpdateRestaurant, @Res() res: any) {
     const admin_id = res?.user_id;
 
     return await this.restaurantService
