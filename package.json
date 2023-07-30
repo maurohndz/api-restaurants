@@ -10,8 +10,11 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "start": "nest start",
     "start:dev": "dotenv -v ENVIRONMENT=development -- nest start --watch",
+    "start:qa": "dotenv -v ENVIRONMENT=qa -- nest start --watch",
     "start:prod": "node dist/main",
-    "build": "nest build",
+    "build": "dotenv -v ENVIRONMENT=production -- nest build",
+    "build:dev": "dotenv -v ENVIRONMENT=development -- nest build",
+    "build:qa": "dotenv -v ENVIRONMENT=qa -- nest build",
     "db:pull:dev": "dotenv -e ./env/.env.development -- prisma db pull && prisma generate",
     "db:push:dev": "dotenv -e ./env/.env.development -- prisma db push",
     "db:seed:dev": "dotenv -e ./env/.env.development -- prisma db seed --preview-feature"
