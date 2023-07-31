@@ -1,78 +1,100 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Inicialización de API de NestJS
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Esta guía te ayudará a configurar y ejecutar una API de NestJS con diferentes entornos (qa, development y prod) utilizando Yarn.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Requisitos previos
 
-## Description
+Asegúrate de tener instalado Node.js y Yarn en tu sistema. Puedes descargar Node.js desde el sitio web oficial ([https://nodejs.org](https://nodejs.org)) y Yarn desde su sitio web ([https://yarnpkg.com](https://yarnpkg.com)).
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Pasos de configuración
 
-## Installation
+1. Clona este repositorio en tu máquina local:
 
-```bash
-$ yarn install
+```
+git clone https://github.com/maurohndz/api-restaurants
+cd <api-restaurants>
 ```
 
-## Running the app
 
-```bash
-# development
-$ yarn run start
+2. Instala las dependencias utilizando Yarn:
 
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+```
+yarn install
 ```
 
-## Test
 
-```bash
-# unit tests
-$ yarn run test
+3. Configura los archivos `.env.enviroment`:
 
-# e2e tests
-$ yarn run test:e2e
+En la carpeta `environments`, encontrarás un archivo de ejemplo llamado `env-example`. Crea un archivo `.env.enviroment` para cada entorno (qa, development y prod) basado en el archivo de ejemplo proporcionado. Asegúrate de configurar adecuadamente las variables de entorno necesarias para cada caso.
 
-# test coverage
-$ yarn run test:cov
+## Ejecución de la API
+
+Puedes ejecutar la API utilizando los siguientes comandos:
+
+- **Entorno de desarrollo (development):**
+```
+yarn run start:dev
 ```
 
-## Support
+- **Entorno de desarrollo (qa):**
+```
+yarn run start:qa
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- **Entorno de desarrollo (prod):**
+```
+yarn start
+```
 
-## Stay in touch
+El comando seleccionado iniciará la aplicación en el entorno correspondiente.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Construcción del proyecto
 
-## License
+Si necesitas construir el proyecto para desplegarlo en un servidor, puedes utilizar los siguientes comandos:
 
-Nest is [MIT licensed](LICENSE).
+- **Entorno de desarrollo (development):**
+```
+yarn run build:development
+```
 
+- **Entorno de qa (qa):**
+```
+yarn run build:qa
+```
 
+- **Entorno de desarrollo (prod):**
+```
+yarn rbuild
+```
+
+Cada comando de construcción generará los archivos listos para desplegar en el directorio `dist`.
+
+## Gestión de la Base de Datos
+
+Utiliza los siguientes comandos para gestionar la base de datos:
+
+- **Montar la base de datos:**
+```
+yarn run db:push:dev
+```
+
+- **Montar la modelos:**
+```
+yarn run db:pull:dev
+```
+
+- **Ejecutar los seeders:**
+```
+yarn run db:seed:dev
+```
+
+Estas opciones solo estan diponibles en el ambiente de desarrollo.
+
+### Configuracion de la Base de Datos
+
+Se debe ejecutar el siguinte comando en la DB:
+
+```
 -- Extension: "uuid-ossp"
 
 -- DROP EXTENSION "uuid-ossp";
@@ -80,4 +102,8 @@ Nest is [MIT licensed](LICENSE).
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp"
     SCHEMA public
     VERSION "1.1";
+```
 
+## License
+
+Nest is [MIT licensed](LICENSE).
