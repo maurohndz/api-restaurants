@@ -17,6 +17,9 @@ export class RestaurantsService {
       orderBy: {
         created_at: 'asc',
       },
+      include: {
+        menus: true,
+      },
     });
   }
 
@@ -25,6 +28,9 @@ export class RestaurantsService {
       where: {
         id: restaurant_id,
         deleted_at: null,
+      },
+      include: {
+        menus: true,
       },
     });
   }

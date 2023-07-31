@@ -22,6 +22,20 @@ import { CreateMenu, UpdateMenu } from 'src/validations';
 export class MenusController {
   constructor(private readonly menusSevice: MenusService) {}
 
+  @Get()
+  async getAll() {
+    return await this.menusSevice
+      .getAllMenus()
+      .then((data) => {
+        const httpResponse = new HttpResponse(data, 'SUCCESS');
+        return httpResponse.getResponse();
+      })
+      .catch((error) => {
+        console.log(error);
+        throw new HttpErros(error);
+      });
+  }
+
   @Get('/:restaurant_id')
   async getAllMenus(@Param('restaurant_id') restaurant_id: string) {
     return await this.menusSevice

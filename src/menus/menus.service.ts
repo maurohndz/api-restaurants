@@ -9,12 +9,36 @@ import { ERRORS_HTTP } from 'src/constants/messages';
 export class MenusService {
   constructor(private prisma: PrismaService) {}
 
+  async getAllMenus() {
+    return this.prisma.menus.findMany({
+      where: {
+        status: true,
+      },
+      include: {
+        restaurants: {
+          select: {
+            name: true,
+            id: true,
+          },
+        },
+      },
+    });
+  }
+
   async getMenusByRestaurants(restaurant_id: string) {
     return this.prisma.menus.findMany({
       where: {
         AND: {
           restaurant_id,
           status: true,
+        },
+      },
+      include: {
+        restaurants: {
+          select: {
+            name: true,
+            id: true,
+          },
         },
       },
     });
@@ -26,7 +50,14 @@ export class MenusService {
         AND: {
           id: menu_id,
           status: true,
-          deleted_at: null,
+        },
+      },
+      include: {
+        restaurants: {
+          select: {
+            name: true,
+            id: true,
+          },
         },
       },
     });

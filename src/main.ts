@@ -12,7 +12,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Administrador de restaurantes')
-    .setDescription('The cats API description')
+    .setDescription('Api para la gestion de menus y pedidos en linea')
     .setVersion('1.0')
     .addTag('Restaurantes')
     .addTag('Empleados')
